@@ -42,7 +42,7 @@ La documentation complète est incluse dans le projet sous forme de :
 
 ### Via Composer (recommandé)
 
-    composer require devmarc-hub/duratio:dev-main
+    composer require devmarc-hub/duratio
 
 ---
 

@@ -43,7 +43,7 @@ The full documentation is included in the project as:
 
 ### Via Composer (recommended)
 
-composer require devmarc-hub/duratio:dev-main
+composer require devmarc-hub/duratio
 
 ---
 
