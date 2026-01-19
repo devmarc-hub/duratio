@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Documentation — Classe Duration</title>
+<style>
+:root {
+  --primary: #3498db;
+  --primary-dark: #2980b9;
+  --secondary: #2c3e50;
+  --accent: #e74c3c;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --border: #dee2e6;
+  --code-bg: #f4f4f4;
+  --success: #28a745;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --gray-200: #e9ecef;
+  --gray-700: #495057;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--dark);
+  background-color: var(--light);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 30px;
+  height: calc(100vh - 40px);
+}
+
+/* Sidebar */
+.sidebar {
+  position: sticky;
+  top: 20px;
+  height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  color: var(--secondary);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.sidebar nav ul {
+  list-style: none;
+}
+
+.sidebar nav li {
+  margin-bottom: 8px;
+}
+
+.sidebar nav a {
+  color: var(--gray-700);
+  text-decoration: none;
+  padding: 6px 0 6px 10px;
+  display: block;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  color: var(--primary);
+  border-left-color: var(--primary);
+  background-color: rgba(52, 152, 219, 0.05);
+  border-radius: 0 4px 4px 0;
+}
+
+.sidebar nav ul ul {
+  margin-left: 15px;
+  margin-top: 6px;
+  font-size: 0.9rem;
+}
+
+/* Main Content */
+.main-content {
+  background: white;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+/* Scrollbar */
+.sidebar::-webkit-scrollbar,
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+.sidebar::-webkit-scrollbar-track,
+.main-content::-webkit-scrollbar-track {
+  background: var(--gray-200);
+  border-radius: 4px;
+}
+.sidebar::-webkit-scrollbar-thumb,
+.main-content::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover,
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Headings */
+.main-content h1 {
+  color: var(--secondary);
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid var(--primary);
+  font-size: 2rem;
+}
+.main-content h2 {
+  color: var(--secondary);
+  margin: 40px 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.5rem;
+}
+.main-content h3 {
+  color: var(--dark);
+  margin: 30px 0 15px;
+  font-size: 1.25rem;
+}
+.main-content h4 {
+  color: var(--dark);
+  margin: 20px 0 10px;
+  font-size: 1.1rem;
+}
+
+/* Code */
+pre {
+  background-color: var(--code-bg);
+  border-radius: 6px;
+  padding: 20px;
+  overflow-x: auto;
+  margin: 20px 0;
+  border: 1px solid var(--border);
+  font-size: 0.95em;
+}
+code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  color: var(--dark);
+}
+.code-block {
+  position: relative;
+}
+.copy-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85em;
+  transition: background 0.2s;
+  z-index: 2;
+}
+.copy-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  border: 1px solid var(--border);
+}
+th {
+  background-color: var(--primary);
+  color: white;
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+}
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+tr:nth-child(even) {
+  background-color: var(--light);
+}
+
+/* Alerts */
+.note, .warning, .success {
+  padding: 16px;
+  margin: 20px 0;
+  border-radius: 6px;
+  border-left: 4px solid;
+}
+.note {
+  background-color: #e8f4fd;
+  border-left-color: var(--primary);
+}
+.warning {
+  background-color: #fff8e1;
+  border-left-color: var(--warning);
+  color: #5f5f5f;
+}
+.success {
+  background-color: #d4edda;
+  border-left-color: var(--success);
+}
+
+/* Examples & Cards */
+.example, .method-card {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+  margin: 20px 0;
+}
+.method-card {
+  border-left: 4px solid var(--primary);
+}
+.method-signature {
+  background: var(--dark);
+  color: white;
+  padding: 12px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.95em;
+  overflow-x: auto;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+.feature-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.feature-icon {
+  font-size: 2.2em;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+/* Footer */
+footer {
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--gray-700);
+  font-size: 0.9em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    overflow: auto;
+    height: auto;
+  }
+  .container {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 20px;
+  }
+  .sidebar {
+    position: static;
+    margin-bottom: 30px;
+    height: auto;
+    max-height: none;
+    overflow-y: visible;
+  }
+  .main-content {
+    padding: 20px;
+    height: auto;
+    max-height: none;
+    overflow-y: visible;
+  }
+  .main-content h1 {
+    font-size: 1.75rem;
+  }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <h2>Documentation</h2>
+    <div class="sidebar-content">
+      <nav>
+        <ul>
+          <li><a href="#introduction" class="active">Introduction</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li>
+            <a href="#concepts">Concepts Clés</a>
+            <ul>
+              <li><a href="#immutability">Immutabilité</a></li>
+              <li><a href="#precision">Précision Nanoseconde</a></li>
+              <li><a href="#multilingual">Multilinguisme</a></li>
+              <li><a href="#terminologie">Attention à la Terminologie</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#creating">Création de Durées</a>
+            <ul>
+              <li><a href="#factories">Méthodes Factory</a></li>
+              <li><a href="#parsing">Parsing</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#operations">Opérations</a>
+            <ul>
+              <li><a href="#arithmetic">Arithmétique</a></li>
+              <li><a href="#comparisons">Comparaisons</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#formatting">Formatage</a>
+            <ul>
+              <li><a href="#humanize">humanize()</a></li>
+              <li><a href="#format-method">format()</a></li>
+              <li><a href="#tostring">__toString()</a></li>
+              <li><a href="#iso8601">ISO 8601</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#conversions">Conversions</a>
+            <ul>
+              <li><a href="#dateinterval">DateInterval</a></li>
+              <li><a href="#accessors">Accesseurs</a></li>
+            </ul>
+          </li>
+          <li><a href="#api-reference">Référence API</a></li>
+          <li><a href="#examples">Exemples Complets</a></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Introduction -->
+    <section id="introduction">
+      <h1>Classe Duration</h1>
+      <p>
+        La classe <code>Duration</code> est une implémentation PHP robuste et immuable pour représenter
+        et manipuler des durées de temps. Inspirée par les designs de Go (<code>time.Duration</code>)
+        et Java (<code>java.time.Duration</code>), elle offre une API intuitive avec une précision
+        nanoseconde et un support multilingue complet.
+      </p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h4>Performance</h4>
+          <p>Calculs rapides avec stockage interne en nanosecondes</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h4>Immuable</h4>
+          <p>Thread-safe et prévisible par conception</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌍</div>
+          <h4>Multilingue</h4>
+          <p>Support de 5 langues différentes</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h4>Précision</h4>
+          <p>Précision nanoseconde pour tous les calculs</p>
+        </div>
+      </div>
+      <div class="example">
+        <h4>Exemple Rapide</h4>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>use Utils\Duration;
+// Créer une durée
+$duration = Duration::hours(2)->add(Duration::minutes(30));
+// Formater
+echo $duration->humanize('fr'); // "2 heures et 30 minutes"
+echo $duration->totalMinutes(); // 150.0</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section id="installation">
+      <h2>Installation</h2>
+      <h3>Via Composer</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        <pre><code>composer require devmarc-hub/duratio:dev-main</code></pre>
+      </div>
+      <h3>Manuellement</h3>
+      <p>Copiez la classe dans votre projet :</p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        <pre><code>require_once 'Utils/Duration.php';
+use Utils\Duration;</code></pre>
+      </div>
+      <div class="note">
+        <strong>Note :</strong> PHP 8.0+ requis (strict types, typed properties).
+      </div>
+    </section>
+
+    <!-- Concepts Clés -->
+    <section id="concepts">
+      <h2>Concepts Clés</h2>
+      <div id="immutability">
+        <h3>Immutabilité</h3>
+        <p>
+          La classe <code>Duration</code> est <strong>immuable</strong>. Une fois créée, une instance
+          ne peut pas être modifiée. Toutes les opérations retournent une nouvelle instance.
+        </p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>$duration = Duration::hours(2);
+$newDuration = $duration->add(Duration::minutes(30));
+echo $duration->totalHours();      // 2.0 (inchangé)
+echo $newDuration->totalHours();   // 2.5</code></pre>
+        </div>
+      </div>
+      <div id="precision">
+        <h3>Précision Nanoseconde</h3>
+        <p>
+          Toutes les durées sont stockées en interne en nanosecondes, offrant une précision maximale
+          pour les calculs et conversions.
+        </p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>$duration = Duration::microseconds(500);
+echo $duration->totalNanoseconds(); // 500000
+echo $duration->totalMicroseconds(); // 500.0</code></pre>
+        </div>
+      </div>
+      <div id="multilingual">
+        <h3>Multilinguisme</h3>
+        <p>
+          La classe supporte nativement 5 langues pour le formatage humain :
+        </p>
+        <ul>
+          <li><strong>en</strong> : Anglais</li>
+          <li><strong>fr</strong> : Français</li>
+          <li><strong>es</strong> : Espagnol</li>
+          <li><strong>de</strong> : Allemand</li>
+          <li><strong>it</strong> : Italien</li>
+        </ul>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>$duration = Duration::parse('1h30m');
+echo $duration->humanize('en'); // "1 hour and 30 minutes"
+echo $duration->humanize('fr'); // "1 heure et 30 minutes"
+echo $duration->humanize('es'); // "1 hora y 30 minutos"
+echo $duration->humanize('de'); // "1 Stunde und 30 Minuten"
+echo $duration->humanize('it'); // "1 ora e 30 minuti"</code></pre>
+        </div>
+      </div>
+      <div id="terminologie">
+        <h3>Attention à la Terminologie</h3>
+        <div class="note">
+          <strong>Note terminologique :</strong> Cette classe s'appelle <code>Duration</code> dans le code
+          (pour respecter les conventions de nommage anglaises en PHP) mais est documentée comme "Durée"
+          en français pour éviter toute confusion avec le terme financier "duration" qui a une signification
+          technique spécifique.
+        </div>
+        <h4>Différence entre Durée (temps) et Duration (finance)</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Aspect</th>
+              <th>Classe Durée (Time Duration)</th>
+              <th>Duration Financière</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Définition</strong></td>
+              <td>Intervalle de temps entre deux instants</td>
+              <td>Mesure de la sensibilité d'un actif aux taux d'intérêt</td>
+            </tr>
+            <tr>
+              <td><strong>Unités</strong></td>
+              <td>Secondes, minutes, heures, jours</td>
+              <td>Années (mesure en années)</td>
+            </tr>
+            <tr>
+              <td><strong>Usage</strong></td>
+              <td>Calculs de temps, temporisation, planification</td>
+              <td>Gestion de portefeuille, analyse de risque</td>
+            </tr>
+            <tr>
+              <td><strong>Exemple</strong></td>
+              <td>"Le film dure 2 heures"</td>
+              <td>"La duration de cette obligation est de 5 ans"</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Conventions de nommage recommandées</h4>
+        <ul>
+          <li><code>$duree</code> ou <code>$temps</code> pour les variables générales</li>
+          <li><code>$intervalle</code> ou <code>$delai</code> pour des contextes spécifiques</li>
+          <li><code>$timeout</code> ou <code>$timeLimit</code> pour les limites de temps</li>
+          <li>Éviter <code>$duration</code> seul dans les projets financiers</li>
+        </ul>
+        <div class="warning">
+          <strong>Attention :</strong> Dans les projets financiers, utilisez des noms de variables explicites
+          comme <code>$duree</code>, <code>$delai</code> ou <code>$intervalle</code> au lieu de <code>$duration</code>
+          pour éviter toute confusion.
+        </div>
+      </div>
+    </section>
+
+    <!-- Création de Durées -->
+    <section id="creating">
+      <h2>Création de Durées</h2>
+      <div id="factories">
+        <h3>Méthodes Factory</h3>
+        <p>Plusieurs méthodes statiques pour créer des durées à partir d'unités spécifiques :</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Méthode</th>
+              <th>Description</th>
+              <th>Exemple</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>nanoseconds(int $ns)</code></td>
+              <td>Crée une durée en nanosecondes</td>
+              <td><code>Duration::nanoseconds(1000000)</code></td>
+            </tr>
+            <tr>
+              <td><code>microseconds(int $us)</code></td>
+              <td>Crée une durée en microsecondes</td>
+              <td><code>Duration::microseconds(500)</code></td>
+            </tr>
+            <tr>
+              <td><code>milliseconds(int $ms)</code></td>
+              <td>Crée une durée en millisecondes</td>
+              <td><code>Duration::milliseconds(1500)</code></td>
+            </tr>
+            <tr>
+              <td><code>seconds(int $s)</code></td>
+              <td>Crée une durée en secondes</td>
+              <td><code>Duration::seconds(90)</code></td>
+            </tr>
+            <tr>
+              <td><code>minutes(int $m)</code></td>
+              <td>Crée une durée en minutes</td>
+              <td><code>Duration::minutes(45)</code></td>
+            </tr>
+            <tr>
+              <td><code>hours(int $h)</code></td>
+              <td>Crée une durée en heures</td>
+              <td><code>Duration::hours(2)</code></td>
+            </tr>
+            <tr>
+              <td><code>days(int $d)</code></td>
+              <td>Crée une durée en jours</td>
+              <td><code>Duration::days(3)</code></td>
+            </tr>
+            <tr>
+              <td><code>zero()</code></td>
+              <td>Crée une durée de zéro</td>
+              <td><code>Duration::zero()</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="parsing">
+        <h3>Parsing de Chaînes</h3>
+        <p>La méthode <code>parse()</code> accepte plusieurs formats :</p>
+        <h4>Format Simple</h4>
+        <p>Unités : d (jours), h (heures), m (minutes), s (secondes), ms, µs/us, ns</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>// Exemples de formats simples
+Duration::parse('1h30m');      // 1 heure 30 minutes
+Duration::parse('2d5h30m15s'); // 2 jours, 5 heures, 30 minutes, 15 secondes
+Duration::parse('90s');        // 90 secondes
+Duration::parse('500ms');      // 500 millisecondes
+			Duration::parse('1.5h');       // 1.5 heures (décimales supportées)</code></pre>
+        </div>
+        <h4>Format ISO 8601</h4>
+        <p>Support du standard international pour les durées :</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>Duration::parse('PT1H30M15S');    // 1 heure, 30 minutes, 15 secondes
+Duration::parse('P1DT2H');        // 1 jour, 2 heures
+Duration::parse('PT0.5H');        // 0.5 heure (30 minutes)
+Duration::parse('-PT1H');         // -1 heure (durée négative)</code></pre>
+        </div>
+        <div class="note">
+          <strong>Note :</strong> Les microsecondes peuvent être spécifiées avec 'us' ou 'µs'.
+          Pour le format ISO 8601, les fractions de seconde sont supportées.
+        </div>
+        <h4>Depuis DateInterval</h4>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>$interval = new DateInterval('P1DT2H30M');
+$duration = Duration::fromDateInterval($interval);
+echo $duration->totalHours(); // 26.5</code></pre>
+        </div>
+        <div class="warning">
+          <strong>Important :</strong> Les mois et années dans <code>DateInterval</code> ne sont <em>pas</em> supportés,
+          car leur durée varie (28–31 jours). Une exception est levée si présents.
+        </div>
+      </div>
+    </section>
+
+    <!-- Opérations -->
+    <section id="operations">
+      <h2>Opérations</h2>
+      <div id="arithmetic">
+        <h3>Opérations Arithmétiques</h3>
+        <p>Toutes les opérations retournent une nouvelle instance :</p>
+        <div class="method-card">
+          <div class="method-signature">add(Duration $other): Duration</div>
+          <p>Additionne deux durées.</p>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+            <pre><code>$d1 = Duration::hours(2);
+$d2 = Duration::minutes(30);
+$result = $d1->add($d2); // 2.5 heures</code></pre>
+          </div>
+        </div>
+        <div class="method-card">
+          <div class="method-signature">subtract(Duration $other): Duration</div>
+          <p>Soustrait une durée d'une autre.</p>
+        </div>
+        <div class="method-card">
+          <div class="method-signature">multiply(float $factor): Duration</div>
+          <p>Multiplie la durée par un facteur. Le résultat est arrondi à la nanoseconde la plus proche.</p>
+        </div>
+        <div class="method-card">
+          <div class="method-signature">divide(float $divisor): Duration</div>
+          <p>Divise la durée par un diviseur. Lance <code>InvalidArgumentException</code> si division par zéro.</p>
+          <div class="warning">
+            <strong>Attention :</strong> Lance une exception si division par zéro.
+          </div>
+        </div>
+        <div class="method-card">
+          <div class="method-signature">abs(): Duration</div>
+          <p>Retourne la valeur absolue de la durée (toujours ≥ 0).</p>
+        </div>
+        <div class="method-card">
+          <div class="method-signature">negate(): Duration</div>
+          <p>Retourne l'opposé de la durée (inverse le signe).</p>
+        </div>
+      </div>
+      <div id="comparisons">
+        <h3>Comparaisons</h3>
+        <p>Méthodes pour comparer des durées :</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Méthode</th>
+              <th>Description</th>
+              <th>Retourne</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>equals(Duration $other)</code></td>
+              <td>Vérifie l'égalité exacte (même nombre de nanosecondes)</td>
+              <td><code>bool</code></td>
+            </tr>
+            <tr>
+              <td><code>greaterThan(Duration $other)</code></td>
+              <td>Vérifie si strictement supérieur</td>
+              <td><code>bool</code></td>
+            </tr>
+            <tr>
+              <td><code>lessThan(Duration $other)</code></td>
+              <td>Vérifie si strictement inférieur</td>
+              <td><code>bool</code></td>
+            </tr>
+            <tr>
+              <td><code>greaterThanOrEqual(Duration $other)</code></td>
+              <td>Vérifie si supérieur ou égal</td>
+              <td><code>bool</code></td>
+            </tr>
+            <tr>
+              <td><code>lessThanOrEqual(Duration $other)</code></td>
+              <td>Vérifie si inférieur ou égal</td>
+              <td><code>bool</code></td>
+            </tr>
+            <tr>
+              <td><code>isZero()</code></td>
+              <td>Vérifie si durée nulle (0 ns)</td>
+              <td><code>bool</code></td>
+            </tr>
+            <tr>
+              <td><code>isPositive()</code></td>
+              <td>Vérifie si durée strictement positive</td>
+              <td><code>bool</code></td>
+            </tr>
+            <tr>
+              <td><code>isNegative()</code></td>
+              <td>Vérifie si durée strictement négative</td>
+              <td><code>bool</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="example">
+          <h4>Exemple de Comparaisons</h4>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+            <pre><code>$d1 = Duration::hours(2);
+$d2 = Duration::minutes(90); // 1.5 heures
+echo $d1->greaterThan($d2);     // true
+echo $d1->lessThanOrEqual($d2); // false
+echo $d1->isZero();             // false
+echo Duration::zero()->isZero(); // true</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formatage -->
+    <section id="formatting">
+      <h2>Formatage</h2>
+      <div id="humanize">
+        <h3>Méthode humanize()</h3>
+        <p>Formate la durée de façon lisible dans différentes langues.</p>
+        <div class="method-card">
+          <div class="method-signature">humanize(string $lang = 'en', array $options = []): string</div>
+          <div class="method-params">
+            <h5>Paramètres</h5>
+            <ul>
+              <li><code>$lang</code> : Langue ('en', 'fr', 'es', 'de', 'it')</li>
+              <li><code>$options</code> : Options de formatage :
+                <ul>
+                  <li><code>precision</code> : Nombre max d'unités à afficher (défaut: 2)</li>
+                  <li><code>compact</code> : Format compact (défaut: false)</li>
+                  <li><code>show_zero</code> : Afficher les unités nulles (défaut: false)</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+            <pre><code>$duration = Duration::parse('2d5h30m15s');
+// Format par défaut
+echo $duration->humanize('fr');
+// "2 jours, 5 heures et 30 minutes"
+// Format compact
+echo $duration->humanize('en', ['compact' => true]);
+// "2d 5h"
+// Précision limitée
+echo $duration->humanize('es', ['precision' => 1]);
+// "2 días"
+// Montrer les zéros
+echo Duration::hours(0)->humanize('en', ['show_zero' => true]);
+// "0 hours"</code></pre>
+          </div>
+        </div>
+      </div>
+      <div id="format-method">
+        <h3>Méthode format()</h3>
+        <p>Format personnalisé avec placeholders.</p>
+        <div class="method-card">
+          <div class="method-signature">format(string $pattern): string</div>
+          <h5>Placeholders disponibles :</h5>
+          <ul>
+            <li><code>%d</code> : Jours (rempli avec des zéros)</li>
+            <li><code>%h</code> : Heures (rempli avec des zéros)</li>
+            <li><code>%m</code> : Minutes (rempli avec des zéros)</li>
+            <li><code>%s</code> : Secondes (rempli avec des zéros)</li>
+            <li><code>%ms</code> : Millisecondes (rempli avec des zéros)</li>
+          </ul>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+            <pre><code>$duration = Duration::parse('1h5m30s250ms');
+echo $duration->format('%h:%m:%s');        // "01:05:30"
+echo $duration->format('%h heures %m minutes'); // "01 heures 05 minutes"
+echo $duration->format('%h:%m:%s.%ms');    // "01:05:30.250"</code></pre>
+          </div>
+        </div>
+      </div>
+      <div id="tostring">
+        <h3>Méthodes __toString() et toShortString()</h3>
+        <p>Format compact et lisible.</p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>$duration = Duration::parse('2h30m15s500ms');
+echo $duration; // "2h30m15s500ms"
+echo $duration->toShortString(); // "2h30m15s500ms"
+// Conversion implicite en chaîne
+$string = (string) $duration; // "2h30m15s500ms"</code></pre>
+        </div>
+      </div>
+      <div id="iso8601">
+        <h3>Format ISO 8601</h3>
+        <div class="method-card">
+          <div class="method-signature">toISO8601(): string</div>
+          <p>Convertit en format ISO 8601 standard.</p>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+            <pre><code>$duration = Duration::parse('1h30m15s');
+echo $duration->toISO8601(); // "PT1H30M15S"
+$duration = Duration::days(2)->add(Duration::hours(5));
+echo $duration->toISO8601(); // "P2DT5H"</code></pre>
+          </div>
+        </div>
+        <h4>Exemples de formats ISO 8601 supportés</h4>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>// Formats ISO 8601
+Duration::parse('PT1H30M15S');    // 1 heure, 30 minutes, 15 secondes
+Duration::parse('P1DT2H30M');     // 1 jour, 2 heures, 30 minutes
+Duration::parse('PT0.5H');        // 0.5 heure (30 minutes)
+Duration::parse('PT3600S');       // 3600 secondes (1 heure)
+Duration::parse('-PT1H30M');      // -1 heure 30 minutes (durée négative)</code></pre>
+        </div>
+        <div class="note">
+          <strong>Note :</strong> Le format ISO 8601 est le standard international pour représenter
+          les durées. Il commence toujours par 'P' (pour période), suivi de 'T' (pour time) si
+          des composantes temporelles sont présentes.
+        </div>
+      </div>
+    </section>
+
+    <!-- Conversions -->
+    <section id="conversions">
+      <h2>Conversions</h2>
+      <div id="dateinterval">
+		  <h3>Conversion DateInterval</h3>
+		  <div class="method-card">
+			<div class="method-signature">toDateInterval(): DateInterval</div>
+			<p>Convertit en objet <code>DateInterval</code> natif de PHP.</p>
+			<div class="code-block">
+			  <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+			  <pre><code>$duration = Duration::hours(2)->add(Duration::minutes(30));
+$interval = $duration->toDateInterval();
+echo $interval->h; // 2
+echo $interval->i; // 30
+echo $interval->format('%H:%I:%S'); // "02:30:00"</code></pre>
+			</div>
+		  </div>
+		  <div class="method-card">
+			<div class="method-signature">fromDateInterval(DateInterval $interval): Duration</div>
+			<p>Crée une <code>Duration</code> à partir d’un <code>DateInterval</code>.</p>
+			<div class="warning">
+			  <strong>Important :</strong> Cette méthode <strong>rejette les intervalles contenant des mois (<code>m</code>) ou des années (<code>y</code>)</strong>.
+			</div>
+			<p>
+			  En effet, un « mois » ou une « année » n’ont pas de durée fixe en secondes :
+			  <ul>
+				<li>Un mois peut durer 28, 29, 30 ou 31 jours</li>
+				<li>Une année peut durer 365 ou 366 jours</li>
+			  </ul>
+			  Or, la classe <code>Duration</code> représente une <strong>durée absolue et déterministe</strong> (stockée en nanosecondes).
+			  Convertir un mois en secondes nécessiterait une approximation (ex. : 30 jours), ce qui introduirait des erreurs silencieuses.
+			</p>
+			<p>
+			  Pour garantir la précision et la prévisibilité, une exception <code>InvalidArgumentException</code> est levée si <code>$interval->m > 0</code> ou <code>$interval->y > 0</code>.
+			</p>
+			<div class="note">
+			  <strong>Conseil :</strong> Utilisez <code>DateInterval</code> pour les calculs calendaires (ex. : « dans 3 mois ») et <code>Duration</code> pour les durées absolues (ex. : « 72 heures exactement »).
+			</div>
+		  </div>
+	  </div>
+    <div id="accessors">
+      <h3 >Méthodes d'Accès</h3>
+      <p>Récupérer la durée dans différentes unités :</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Méthode</th>
+            <th>Retourne</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>totalNanoseconds()</code></td>
+            <td><code>int</code></td>
+            <td>Durée totale en nanosecondes (signée)</td>
+          </tr>
+          <tr>
+            <td><code>totalMicroseconds()</code></td>
+            <td><code>float</code></td>
+            <td>Durée totale en microsecondes</td>
+          </tr>
+          <tr>
+            <td><code>totalMilliseconds()</code></td>
+            <td><code>float</code></td>
+            <td>Durée totale en millisecondes</td>
+          </tr>
+          <tr>
+            <td><code>totalSeconds()</code></td>
+            <td><code>float</code></td>
+            <td>Durée totale en secondes</td>
+          </tr>
+          <tr>
+            <td><code>totalMinutes()</code></td>
+            <td><code>float</code></td>
+            <td>Durée totale en minutes</td>
+          </tr>
+          <tr>
+            <td><code>totalHours()</code></td>
+            <td><code>float</code></td>
+            <td>Durée totale en heures</td>
+          </tr>
+          <tr>
+            <td><code>totalDays()</code></td>
+            <td><code>float</code></td>
+            <td>Durée totale en jours</td>
+          </tr>
+          <tr>
+            <td><code>inNanoseconds()</code></td>
+            <td><code>int</code></td>
+            <td>Durée arrondie en nanosecondes</td>
+          </tr>
+          <tr>
+            <td><code>inMicroseconds()</code></td>
+            <td><code>int</code></td>
+            <td>Durée arrondie en microsecondes</td>
+          </tr>
+          <tr>
+            <td><code>inMilliseconds()</code></td>
+            <td><code>int</code></td>
+            <td>Durée arrondie en millisecondes</td>
+          </tr>
+          <tr>
+            <td><code>inSeconds()</code></td>
+            <td><code>int</code></td>
+            <td>Durée arrondie en secondes</td>
+          </tr>
+          <tr>
+            <td><code>inMinutes()</code></td>
+            <td><code>int</code></td>
+            <td>Durée arrondie en minutes</td>
+          </tr>
+          <tr>
+            <td><code>inHours()</code></td>
+            <td><code>int</code></td>
+            <td>Durée arrondie en heures</td>
+          </tr>
+          <tr>
+            <td><code>inDays()</code></td>
+            <td><code>int</code></td>
+            <td>Durée arrondie en jours</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="example">
+        <h4>Exemple de Conversions</h4>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+          <pre><code>$duration = Duration::parse('1.5h');
+echo $duration->totalMinutes();   // 90.0
+echo $duration->totalSeconds();   // 5400.0
+echo $duration->inMinutes();      // 90 (arrondi)
+echo $duration->inHours();        // 2 (arrondi)</code></pre>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- API Reference -->
+    <section id="api-reference">
+      <h2>Référence API Complète</h2>
+      <p>Cette section liste toutes les méthodes publiques de la classe <code>Duration</code>.</p>
+
+      <h3>Constructeurs & Factories Statiques</h3>
+      <div class="method-card">
+        <div class="method-signature">private __construct(int $nanoseconds)</div>
+        <p>Constructeur privé. Utilisez les méthodes factory.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static zero(): Duration</div>
+        <p>Retourne une durée nulle.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static nanoseconds(int $ns): Duration</div>
+        <p>Crée une durée depuis un nombre de nanosecondes.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static microseconds(int $us): Duration</div>
+        <p>Crée une durée depuis un nombre de microsecondes.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static milliseconds(int $ms): Duration</div>
+        <p>Crée une durée depuis un nombre de millisecondes.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static seconds(int $s): Duration</div>
+        <p>Crée une durée depuis un nombre de secondes.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static minutes(int $m): Duration</div>
+        <p>Crée une durée depuis un nombre de minutes.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static hours(int $h): Duration</div>
+        <p>Crée une durée depuis un nombre d'heures.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static days(int $d): Duration</div>
+        <p>Crée une durée depuis un nombre de jours.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static parse(string $input): Duration</div>
+        <p>Parse une chaîne au format simple ou ISO 8601.</p>
+      </div>
+      <div class="method-card">
+        <div class="method-signature">static fromDateInterval(DateInterval $interval): Duration</div>
+        <p>Convertit un <code>DateInterval</code> en <code>Duration</code>. Rejette les mois/années.</p>
+      </div>
+
+      <h3>Accesseurs</h3>
+      <p>Les méthodes <code>total*</code> retournent un <code>float</code>, les <code>in*</code> un <code>int</code> arrondi.</p>
+      <div class="method-card">
+        <div class="method-signature">totalNanoseconds(): int</div>
+        <div class="method-signature">totalMicroseconds(): float</div>
+        <div class="method-signature">totalMilliseconds(): float</div>
+        <div class="method-signature">totalSeconds(): float</div>
+        <div class="method-signature">totalMinutes(): float</div>
+        <div class="method-signature">totalHours(): float</div>
+        <div class="method-signature">totalDays(): float</div>
+        <div class="method-signature">inNanoseconds(): int</div>
+        <div class="method-signature">inMicroseconds(): int</div>
+        <div class="method-signature">inMilliseconds(): int</div>
+        <div class="method-signature">inSeconds(): int</div>
+        <div class="method-signature">inMinutes(): int</div>
+        <div class="method-signature">inHours(): int</div>
+        <div class="method-signature">inDays(): int</div>
+      </div>
+
+      <h3>Opérations Arithmétiques</h3>
+      <div class="method-card">
+        <div class="method-signature">add(Duration $other): Duration</div>
+        <div class="method-signature">subtract(Duration $other): Duration</div>
+        <div class="method-signature">multiply(float $factor): Duration</div>
+        <div class="method-signature">divide(float $divisor): Duration</div>
+        <div class="method-signature">abs(): Duration</div>
+        <div class="method-signature">negate(): Duration</div>
+      </div>
+
+      <h3>Comparaisons</h3>
+      <div class="method-card">
+        <div class="method-signature">equals(Duration $other): bool</div>
+        <div class="method-signature">greaterThan(Duration $other): bool</div>
+        <div class="method-signature">lessThan(Duration $other): bool</div>
+        <div class="method-signature">greaterThanOrEqual(Duration $other): bool</div>
+        <div class="method-signature">lessThanOrEqual(Duration $other): bool</div>
+        <div class="method-signature">isZero(): bool</div>
+        <div class="method-signature">isPositive(): bool</div>
+        <div class="method-signature">isNegative(): bool</div>
+        <div class="method-signature">compare(Duration $other): int</div>
+        <p>Retourne -1, 0, ou 1 (comme <code>strcmp</code>). Utile pour le tri.</p>
+      </div>
+
+      <h3>Conversions</h3>
+      <div class="method-card">
+        <div class="method-signature">toDateInterval(): DateInterval</div>
+        <p>Convertit en <code>DateInterval</code>. Gère les durées négatives via <code>$invert</code>.</p>
+      </div>
+
+      <h3>Formatage</h3>
+      <div class="method-card">
+        <div class="method-signature">humanize(string $lang = 'en', array $options = []): string</div>
+        <div class="method-signature">format(string $pattern): string</div>
+        <div class="method-signature">toShortString(): string</div>
+        <div class="method-signature">toISO8601(): string</div>
+        <div class="method-signature">__toString(): string</div>
+        <p>Alias de <code>toShortString()</code>.</p>
+      </div>
+
+      <h3>Débogage</h3>
+      <div class="method-card">
+        <div class="method-signature">__debugInfo(): array</div>
+        <p>Améliore l'affichage dans Xdebug, VarDumper, etc.</p>
+      </div>
+    </section>
+
+    <!-- Exemples Complets -->
+    <section id="examples">
+      <h2>Exemples Complets</h2>
+      <h3>Exemple 1 : Mesurer un processus</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        <pre><code>&lt;?php
+use Utils\Duration;
+
+// Capturer le début
+$startMicro = microtime(true);
+
+// ... exécution du processus ...
+
+// Calculer la durée écoulée
+$elapsedMicro = microtime(true) - $startMicro;
+$duration = Duration::microseconds((int)($elapsedMicro * 1_000_000));
+
+echo "Temps d'exécution : " . $duration->humanize('fr');
+// Ex: "Temps d'exécution : 2 secondes et 150 millisecondes"</code></pre>
+      </div>
+      <h3>Exemple 2 : Interface Multilingue</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        <pre><code>&lt;?php
+class VideoPlayer {
+  private Duration $duration;
+  private string $userLanguage;
+
+  public function __construct(string $videoDuration, string $language = 'en') {
+    $this->duration = Duration::parse($videoDuration);
+    $this->userLanguage = $language;
+  }
+
+  public function getRemainingTime(Duration $watched): string {
+    $remaining = $this->duration->subtract($watched);
+    if ($remaining->isNegative()) {
+      return 'Vidéo terminée';
+    }
+    return $remaining->humanize($this->userLanguage, [
+      'compact' => true,
+      'precision' => 2
+    ]);
+  }
+}
+
+// Utilisation
+$player = new VideoPlayer('2h30m', 'fr');
+$watched = Duration::hours(1)->add(Duration::minutes(45));
+echo $player->getRemainingTime($watched); // "45m"</code></pre>
+      </div>
+      <h3>Exemple 3 : Gestion de Timeout</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">Copier</button>
+        <pre><code>&lt;?php
+class RequestTimeout {
+  private Duration $limit;
+  private float $startTime;
+
+  public function __construct(string $limit) {
+    $this->limit = Duration::parse($limit);
+    $this->startTime = microtime(true);
+  }
+
+  private function elapsed(): Duration {
+    $elapsedSec = microtime(true) - $this->startTime;
+    return Duration::microseconds((int)($elapsedSec * 1_000_000));
+  }
+
+  public function isExpired(): bool {
+    return $this->elapsed()->greaterThan($this->limit);
+  }
+
+  public function remaining(): Duration {
+    return $this->limit->subtract($this->elapsed());
+  }
+
+  public function remainingHumanized(string $lang = 'en'): string {
+    $r = $this->remaining();
+    return $r->isPositive()
+      ? $r->humanize($lang)
+      : 'Timeout expiré';
+  }
+}
+
+// Utilisation
+$timeout = new RequestTimeout('30s');
+sleep(5);
+echo $timeout->remainingHumanized('fr'); // "25 secondes"</code></pre>
+      </div>
+      <div class="success">
+        <strong>Tip :</strong> Ces exemples montrent comment intégrer la classe Duration dans des
+        applications réelles. La classe est particulièrement utile pour les applications
+        nécessitant une gestion précise du temps et une interface utilisateur multilingue.
+      </div>
+    </section>
+
+    <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+      <p>Documentation pour la classe Duration - Version 1.0</p>
+      <p>© 2026 devmarc-hub — MIT License</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+// Fonction pour copier le code
+function copyCode(button) {
+  const codeBlock = button.parentElement.querySelector('code');
+  const text = codeBlock.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const originalText = button.textContent;
+    button.textContent = 'Copié !';
+    button.style.background = 'var(--success-color)';
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.style.background = 'var(--primary-color)';
+    }, 2000);
+  }).catch(err => {
+    console.error('Erreur lors de la copie : ', err);
+  });
+}
+// Récupérer l'élément du contenu principal
+const mainContent = document.querySelector('.main-content');
+// Navigation fluide avec vérification des éléments
+document.querySelectorAll('nav a').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    if (this.getAttribute('href').startsWith('#')) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        // Calculer la position relative au conteneur de défilement
+        const containerOffset = mainContent.offsetTop;
+        const elementOffset = targetElement.offsetTop;
+        const scrollPosition = elementOffset - containerOffset - 20;
+        // Faire défiler le contenu principal vers la cible
+        mainContent.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth'
+        });
+        // Mettre à jour la navigation active
+        document.querySelectorAll('nav a').forEach(a => {
+          a.classList.remove('active');
+        });
+        this.classList.add('active');
+      } else {
+        console.warn(`Élément ${targetId} non trouvé.`);
+      }
+    }
+  });
+});
+// Mettre à jour la navigation active au scroll du contenu principal
+mainContent.addEventListener('scroll', function() {
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - mainContent.offsetTop;
+    const sectionHeight = section.clientHeight;
+    const scrollPosition = mainContent.scrollTop;
+    if (scrollPosition >= (sectionTop - 100) &&
+        scrollPosition < (sectionTop + sectionHeight - 100)) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>

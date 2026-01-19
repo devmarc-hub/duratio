@@ -1,0 +1,33 @@
+{
+    "name": "devmarc-hub/duratio",
+    "description": "Classe PHP pour gérer les durées avec précision nanoseconde et support multilingue",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "devmarc-hub",
+            "email": "marc.dev@gmx.fr",
+            "homepage": "https://github.com/devmarc-hub"
+        }
+    ],
+    "require": {
+        "php": ">=8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Utils\\": "Utils/"
+        }
+    },
+    "scripts": {
+        "test": "php tests/DurationTest.php",
+        "test:en": "php tests/DurationTest-en.php",
+        "docs": "open docs/index.html",
+        "docs:en": "open docs/index-en.html"
+    },
+    "keywords": ["duration", "time", "multilingual", "php", "datetime", "i18n"],
+    "homepage": "https://github.com/devmarc-hub/duratio",
+    "support": {
+        "issues": "https://github.com/devmarc-hub/duratio/issues",
+        "source": "https://github.com/devmarc-hub/duratio"
+    }
+}
